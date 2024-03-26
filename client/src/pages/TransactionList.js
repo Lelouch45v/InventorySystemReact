@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -29,101 +29,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
 
-// Assuming `transactions` data is imported or defined elsewhere in your code
-
-const transactions = [
-  {
-      invoiceNumber: 300500,
-      status: "Paid",
-      subscription: "Platinum Subscription Plan",
-      price: "799.00",
-      issueDate: moment().subtract(1, "days").format("DD MMM YYYY"),
-      dueDate: moment().add(1, "month").subtract(1, "days").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300499,
-      status: "Due",
-      subscription: "Gold Subscription Plan",
-      price: "599.00",
-      issueDate: moment().subtract(3, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(3, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300498,
-      status: "Overdue",
-      subscription: "Silver Subscription Plan",
-      price: "299.00",
-      issueDate: moment().subtract(5, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(5, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300497,
-      status: "Paid",
-      subscription: "Basic Subscription Plan",
-      price: "199.00",
-      issueDate: moment().subtract(10, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(10, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300496,
-      status: "Pending",
-      subscription: "Gold Subscription Plan",
-      price: "599.00",
-      issueDate: moment().subtract(2, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(2, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300495,
-      status: "Cancelled",
-      subscription: "Platinum Subscription Plan",
-      price: "799.00",
-      issueDate: moment().subtract(15, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(15, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300494,
-      status: "Due",
-      subscription: "Basic Subscription Plan",
-      price: "199.00",
-      issueDate: moment().subtract(7, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(7, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300493,
-      status: "Overdue",
-      subscription: "Silver Subscription Plan",
-      price: "299.00",
-      issueDate: moment().subtract(9, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(9, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300492,
-      status: "Paid",
-      subscription: "Gold Subscription Plan",
-      price: "599.00",
-      issueDate: moment().subtract(12, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(12, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 300491,
-      status: "Pending",
-      subscription: "Platinum Subscription Plan",
-      price: "799.00",
-      issueDate: moment().subtract(20, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(20, "days").add(1, "month").format("DD MMM YYYY"),
-  },
-  {
-      invoiceNumber: 123,
-      status: "Pending",
-      subscription: "Platinum Subscription Plan",
-      price: "799.00",
-      issueDate: moment().subtract(20, "days").format("DD MMM YYYY"),
-      dueDate: moment().subtract(20, "days").add(1, "month").format("DD MMM YYYY"),
-  }
-];
-
 
 const TransactionList = () => {
+  const [transactions, setTransactions] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const open = Boolean(anchorEl);
@@ -159,7 +67,6 @@ const TransactionList = () => {
         return 'text.primary';
     }
   };
-
   const statusOptions = ['Paid', 'Due', 'Overdue', 'Pending', 'Cancelled'];
 
   const filteredTransactions = transactions.filter(transaction =>
@@ -167,6 +74,34 @@ const TransactionList = () => {
     (transaction.subscription.toLowerCase().includes(searchQuery.toLowerCase()) ||
      transaction.status.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+    
+      try {
+        const response = await fetch('/api/transactions');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+  
+        const formattedData = data.map(transaction => ({
+          ...transaction,
+          issueDate: moment(transaction.issueDate).format("DD MMM YYYY"),
+          dueDate: moment(transaction.dueDate).format("DD MMM YYYY"),
+        }));
+  
+        setTransactions(formattedData);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+    };
+  
+    fetchTransactions();
+  }, []);
+ 
+ 
+
 
   return (
     <>
