@@ -19,9 +19,9 @@ const App = () => {
   };
 
   const contentStyle = {
-    marginLeft: showSidebar ? 250 : 0, // Assuming the sidebar width is 250px
-    transition: 'margin-left 0.5s', // Smooth transition for the sliding effect
-    overflow: 'auto', // Ensures that content can be scrolled if it overflows the viewport
+    marginLeft: showSidebar ? 250 : 0, 
+    transition: 'margin-left 0.5s', 
+    overflow: 'auto', 
   };
 
   return (

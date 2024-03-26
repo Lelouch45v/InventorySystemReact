@@ -50,9 +50,11 @@ const Sales = () => {
         <Table aria-label="sales table">
           <TableHead>
             <TableRow>
-              <TableCell>Product</TableCell>
-              <TableCell align="right">Amount ($)</TableCell>
-              <TableCell align="right">Date</TableCell>
+              <TableCell>ProductName</TableCell>
+              <TableCell align="right">QuantitySold ($)</TableCell>
+              <TableCell align="right">SaleDate </TableCell>
+              <TableCell>SalePrice </TableCell>
+              <TableCell align="right">CustomerID  ($)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,6 +63,8 @@ const Sales = () => {
                 <TableCell component="th" scope="row">
                   {row.product}
                 </TableCell>
+                <TableCell align="right">{row.amount}</TableCell>
+                <TableCell align="right">{row.date}</TableCell>
                 <TableCell align="right">{row.amount}</TableCell>
                 <TableCell align="right">{row.date}</TableCell>
               </TableRow>
