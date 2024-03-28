@@ -4,6 +4,8 @@ const pool = require('../db');
 const cors = require('cors');
 
 router.use(cors());
+router.use(express.json());
+
 
 
 router.post('/insert-transactions', async (req, res) => {

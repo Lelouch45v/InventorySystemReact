@@ -9,22 +9,11 @@ const Employee = () => {
     { id: 2, name: "Jane Smith", position: "Product Manager", age: 28, dob: "1995-02-20", hireDate: "2021-07-15" },
     { id: 3, name: "Emma Johnson", position: "Designer", age: 26, dob: "1997-03-30", hireDate: "2022-08-23" },
   ]);
- 
-
-  const handleClick =(event)=>{
-    if (ClickAwayListener.event){
-        const name = {}
-    }
-  }
 
     
   return (
-    <>
-
-
-      
-      <Container>
-            
+    <> 
+      <Container>           
         <Toolbar>
           <Typography variant="h6">
             Employee List

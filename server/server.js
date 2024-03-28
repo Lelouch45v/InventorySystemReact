@@ -3,7 +3,6 @@ const cors = require('cors'); // Import CORS
 const { Pool } = require('pg'); // Import Pool from pg
 const pool = require('./db');
 const transactionRoutes = require('./routes/Transactions');
-const salesRouter = require('./routes/salesRouter')
 
 
 const app = express();
@@ -13,11 +12,11 @@ const PORT = 3000;
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // For parsing application/json
+app.use(express.json());
 
 // Routes
-app.use(transactionRoutes);
-app.use('/api', salesRouter);
+app.use('/api',transactionRoutes);
+
 
 // Start the server
 app.listen(PORT, () => {
