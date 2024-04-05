@@ -32,6 +32,7 @@ router.post('/insert-transactions', async (req, res) => {
 router.get('/api/transactions', async (req, res) => {
   try {
     const allTransactions = await pool.query("SELECT * FROM transactions");
+    console.log(allTransactions.rows,"test for back end");
     res.json(allTransactions.rows);
   } catch (err) {
     console.error(err.message);

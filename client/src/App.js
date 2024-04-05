@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
@@ -11,7 +11,13 @@ import Orders from './pages/Orders';
 import Products from './pages/Products';
 import TransactionList from './pages/TransactionList';
 
+
+
 const App = () => {
+
+
+
+  
   const [showSidebar, setShowSidebar] = useState(false);
 
   const toggleSidebar = () => {
@@ -23,6 +29,7 @@ const App = () => {
     transition: 'margin-left 0.5s', 
     overflow: 'auto', 
   };
+
 
   return (
     <Router>
@@ -41,6 +48,7 @@ const App = () => {
               <Route path="/Products" element={<Products />} />
               <Route path="/Transaction" element={<TransactionList />} />
             </Routes>
+        
           </main>
         </div>
       </div>
