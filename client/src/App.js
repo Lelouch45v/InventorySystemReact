@@ -10,16 +10,12 @@ import NavBar from './components/NavBar';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
 import TransactionList from './pages/TransactionList';
+import Tools from './pages/Tools';
 
 
 
 const App = () => {
-
-
-
-  
   const [showSidebar, setShowSidebar] = useState(false);
-
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);
   };
@@ -33,14 +29,15 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}> {/* Restrict outer div to 100% of viewport height and hide overflow */}
+      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}> 
         <Sidebar showSidebar={showSidebar} onClose={() => setShowSidebar(false)} />
-        <div style={{ flex: 1, ...contentStyle }}> {/* Apply the movement and overflow styles here */}
+        <div style={{ flex: 1, ...contentStyle }}> 
           <NavBar toggleSidebar={toggleSidebar} />
-          <main style={{ overflowY: 'auto', height: 'calc(100vh - 64px)' }}> {/* Make main content scrollable, adjusting for navBar height */}
+          <main style={{ overflowY: 'auto', height: 'calc(100vh - 64px)' }}>
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/tools" element={<Tools />} />
               <Route path="/manage-sales" element={<Sales />} />
               <Route path="/manage-stocks" element={<StockInventory />} />
               <Route path="/employee" element={<Employee />} />
