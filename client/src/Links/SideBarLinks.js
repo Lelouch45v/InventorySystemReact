@@ -13,7 +13,9 @@ const useSidebarItems = () => {
     { text: 'Products', icon: faBoxOpen, onClick: () => navigate('/products') },
     { text: 'Orders', icon: faShoppingCart, onClick: () => navigate('/orders') },
     { text: 'Employee', icon: faUserTie, onClick: () => navigate('/employee') },
-    { text: 'Transaction', icon: faUserTie, onClick: () => navigate('/transaction') }, // Ensure URL paths are correctly cased
+    { text: 'Transaction', icon: faUserTie, onClick: () => navigate('/transaction') },
+    { text: 'Tools', icon: faUserTie, onClick: () => navigate('/tools') }
+
   ];
 
   return items;
