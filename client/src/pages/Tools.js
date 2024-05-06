@@ -77,18 +77,27 @@ const Tools = () => {
   
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(submittedData.map(({ id, companyName, personName, position, email }) => ({
-      ID: id,
-      "Company Name": companyName,
-      "Name of Person": personName,
-      "Position in Company": position,
-      Email: email
+        ID: id,
+        "Company Name": companyName,
+        "Name of Person": personName,
+        "Position in Company": position,
+        Email: email
     })));
-  
+
+    ws['!cols'] = [
+        {wch: 6}, 
+        {wch: 15}, 
+        {wch: 15}, 
+        {wch: 20}, 
+        {wch: 30} 
+    ];
+
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Data");
-  
+
     XLSX.writeFile(wb, "data.xlsx");
-  };
+};
+
   
 
 
