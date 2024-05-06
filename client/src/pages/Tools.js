@@ -23,6 +23,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Delete as DeleteIcon, Visibility as ViewIcon, Edit as EditIcon } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
+import * as XLSX from 'xlsx';
+
 
 const Tools = () => {
   const [open, setOpen] = useState(false);
@@ -73,10 +75,23 @@ const Tools = () => {
   };
   
   
-  const handleView = (id) => {
-
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(submittedData.map(({ id, companyName, personName, position, email }) => ({
+      ID: id,
+      "Company Name": companyName,
+      "Name of Person": personName,
+      "Position in Company": position,
+      Email: email
+    })));
+  
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Data");
+  
+    XLSX.writeFile(wb, "data.xlsx");
   };
   
+
+
 
   const onDrop = (acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -113,6 +128,10 @@ const Tools = () => {
     doc.save('table-data.pdf');
   };
 
+  const handleView =(id)=>{
+   
+  };
+
   
 
   return (
@@ -123,10 +142,10 @@ const Tools = () => {
         </Button>
       </Grid>
 
-        <div {...getRootProps()} style={{ border: '2px dashed gray', padding: '20px', marginTop: '20px' }}>
+        {/* <div {...getRootProps()} style={{ border: '2px dashed gray', padding: '20px', marginTop: '20px' }}>
             <input {...getInputProps()} />
             <p>Drag 'n' drop some files here, or click to select files</p>
-        </div>
+        </div> */}
 
       <Grid item xs={12}>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -146,61 +165,59 @@ const Tools = () => {
 
       <Grid item xs={12} style={{ marginTop: 20 }}>
         <Typography variant="h6" gutterBottom style={{ textAlign: 'center' }}>
-            HR and Payroll Specialist List Contact
+          HR and Payroll Specialist List Contact
         </Typography>
 
-   
+  <div style={{ width: '70%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+    <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>#</TableCell>
+            <TableCell>Company Name</TableCell>
+            <TableCell>Name of Person</TableCell>
+            <TableCell>Position</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {submittedData.length > 0 ? submittedData.map((data, index) => (
+            <TableRow key={index}>
+              <TableCell>{data.id}</TableCell>
+              <TableCell>{data.companyName}</TableCell>
+              <TableCell>{data.personName}</TableCell>
+              <TableCell>{data.position}</TableCell>
+              <TableCell>{data.email}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleView(data.id)}>
+                  <ViewIcon />
+                </IconButton>
+                <IconButton onClick={() => handleEdit(data.id)} sx={{ color: '#1976d2' }}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDelete(data.id)} sx={{ color: 'red' }}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          )) : (
+            <TableRow>
+              <TableCell colSpan={6} align="center">No data available</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <Button variant="contained" color="secondary" onClick={downloadPdf} style={{ marginTop: 20, alignSelf: 'flex-end' }}>
+      Download PDF
+    </Button>
+    <Button variant="contained" color="primary" onClick={exportToExcel} style={{ marginTop: 20, marginLeft: 10 }}>
+      Download Excel
+    </Button>
+  </div>
+</Grid>
 
-        <div style={{ width: '70%', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-            <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-                <TableHead>
-                <TableRow>
-                    <TableCell>#</TableCell>
-                    <TableCell>Company Name</TableCell>
-                    <TableCell>Name of Person</TableCell>
-                    <TableCell>Position</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Actions</TableCell>
-                </TableRow>
-                </TableHead>
-                <TableBody>
-                {submittedData.length > 0 ? (
-                    submittedData.map((data, index) => (
-                    <TableRow key={index}>
-                        <TableCell>{data.id}</TableCell>
-                        <TableCell>{data.companyName}</TableCell>
-                        <TableCell>{data.personName}</TableCell>
-                        <TableCell>{data.position}</TableCell>
-                        <TableCell>{data.email}</TableCell>
-                        <TableCell>
-                        <IconButton onClick={() => handleView(data.id)}>
-                            <ViewIcon />
-                        </IconButton>
-                        <IconButton onClick={() => handleEdit(data.id)}
-                        sx={{ color: '#1976d2' }}>
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton onClick={() => handleDelete(data.id)}
-                        sx={{ color: 'red' }}>
-                            <DeleteIcon />
-                        </IconButton>
-                        </TableCell>
-                    </TableRow>
-                    ))
-                ) : (
-                    <TableRow>
-                    <TableCell colSpan={6} align="center">No data available</TableCell>
-                    </TableRow>
-                )}
-                </TableBody>
-            </Table>
-            </TableContainer>
-            <Button variant="contained" color="secondary" onClick={downloadPdf} style={{ marginTop: 20, alignSelf: 'flex-end' }}>
-            Download PDF
-            </Button>
-        </div>
-        </Grid>
 
 
     </Grid>
