@@ -1,0 +1,11 @@
+{
+    "dev": {
+      "driver": "pg",
+      "user": "postgres",
+      "password": "masterkey_2233#",
+      "host": "localhost",
+      "database": "INVENTORYSYSTEM",
+      "schema": "public"
+    }
+  }
+  

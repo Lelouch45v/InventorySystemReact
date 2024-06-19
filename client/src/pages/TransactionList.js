@@ -100,14 +100,46 @@ const TransactionList = () => {
   
     fetchTransactions();
   }, []);
- 
+
+const handleloadData =()=> {
+  const payload = {
+    
+  }
+
+
+}
  
 
 
   return (
     <>
-      <Box width="60%" margin="auto" paddingTop="2%">
-        <TextField 
+      <Box width='10%' 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          paddingTop: '20px', 
+         
+        }}
+        >
+          <Accordion> 
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Filter By:</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <FormGroup>
+                {statusOptions.map((status) => (
+                  <FormControlLabel
+                    control={<Checkbox checked={selectedStatus.includes(status)} onChange={() => handleStatusChange(status)} name={status} />}
+                    label={status}
+                    key={status}
+                  />
+                ))}
+              </FormGroup>
+            </AccordionDetails>
+          </Accordion>
+      </Box>
+
+      <TextField 
           variant="outlined"
           placeholder="Search transactions..."
           value={searchQuery}
@@ -121,22 +153,10 @@ const TransactionList = () => {
           }}
           sx={{ width: '30%', margin: 'auto', paddingBottom: '5%' }}
         />
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>Filter Options</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <FormGroup>
-              {statusOptions.map((status) => (
-                <FormControlLabel
-                  control={<Checkbox checked={selectedStatus.includes(status)} onChange={() => handleStatusChange(status)} name={status} />}
-                  label={status}
-                  key={status}
-                />
-              ))}
-            </FormGroup>
-          </AccordionDetails>
-        </Accordion>
+      
+
+
+      <Box width="60%" margin="auto" paddingTop="2%">
         <TableContainer component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
